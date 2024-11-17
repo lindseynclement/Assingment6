@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Cloud</title>
+    <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.0/src/wordcloud2.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const canvas = document.getElementById("wordCloudCanvas");
+            const words = [
+                ["TypeScript", 15],
+                ["JavaScript", 10],
+                ["HTML", 8],
+                ["CSS", 6],
+                ["React", 5],
+                ["Node.js", 4],
+                ["Programming", 3],
+                ["Code", 2],
+            ];
+
+            WordCloud(canvas, {
+                list: words,
+                gridSize: 8,
+                weightFactor: 20,
+                fontFamily: "Times, serif",
+                color: () => `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`,
+                rotateRatio: 0.5,
+                rotationSteps: 2,
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Word Cloud</h1>
+    <canvas id="wordCloudCanvas" width="800" height="400" style="border: 1px solid #000;"></canvas>
+</body>
+</html>
