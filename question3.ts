@@ -1,7 +1,9 @@
 declare var WordCloud: any; 
 
 // Generates a word cloud
-function generateWordCloud(posts: Array<{ text: string; user: { age: number; gender: string; region: string } }>, filters: { includeKeywords?: string[]; excludeKeywords?: string[]; userAttributes?: { age?: number; gender?: string; region?: string } }) {
+function generateWordCloud(
+    posts: Array<{ text: string; user: { age: number; gender: string; region: string } }>,
+    filters: { includeKeywords?: string[]; excludeKeywords?: string[]; userAttributes?: { age?: number; gender?: string; region?: string } }) {
     // Filter posts based on the provided filters
     const filteredPosts = posts.filter(post => {
         const { includeKeywords = [], excludeKeywords = [], userAttributes = {} } = filters;
@@ -84,36 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
         userAttributes: { region: "USA" },
     };
 
-    // Logs details of filtered posts
-    function logFilteredPosts(posts: Array<{ text: string; user: { age: number; gender: string; region: string } }>, filters: any) {
-        const filteredPosts = posts.filter(post => {
-            const { includeKeywords = [], excludeKeywords = [], userAttributes = {} } = filters;
-
-            // Check include keywords
-            const includesKeywords = includeKeywords.length === 0 || includeKeywords.some((keyword:string) => post.text.indexOf(keyword) >= 0);
-
-            // Check exclude keywords
-            const excludesKeywords = excludeKeywords.every((keyword:string) => post.text.indexOf(keyword) === -1);
-
-            // Check the user's details
-            const matchesAttributes = (() => {
-                for (const key in userAttributes) {
-                    if (userAttributes.hasOwnProperty(key)) {
-                        if (post.user[key as keyof typeof post.user] !== userAttributes[key as keyof typeof userAttributes]) {
-                            return false;
-                        }
-                    }
-                }
-                return true;
-            })();
-
-            return includesKeywords && excludesKeywords && matchesAttributes;
-        });
-
-        console.log("Filtered Posts:", filteredPosts);
-        return filteredPosts;
-    }
-
     const posts = fetchPosts();
 
     // Generate the word cloud without any filters - need to comment out everything below this to test
@@ -146,10 +118,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return includesKeywords && excludesKeywords && matchesAttributes;
     });
     
-    // Log the filtered posts for debugging
-    console.log("Filtered Posts for word cloud (based on filters):", filteredPosts);
-    
     // Generate the word cloud with the filtered posts
-    console.log("Generating word cloud with filtered posts:");
     generateWordCloud(filteredPosts, {});
 })
